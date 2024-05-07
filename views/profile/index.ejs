@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profile Page</title>
+<link rel="stylesheet" href="navbar.css">
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+  
+    .profile-section {
+        padding: 20px;
+        height: 30vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .profile-card {
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        display: flex;
+        align-items: center;
+    }
+    .profile-image {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        margin-right: 20px;
+    }
+    .profile-details {
+        flex: 1;
+    }
+    .trips-section {
+        padding: 20px;
+        height: fit-content;
+        
+        
+    }
+    .trip-card {
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin-bottom: 20px;
+        display: flex;
+        margin: 20px auto;
+        width: 70vw;
+        align-items: center;
+    }
+    .trip2-card {
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+       
+        margin-bottom: 20px;
+     
+        margin: 10px auto;
+        
+        width: 70vw;
+        align-items: center;
+    }
+    .trip-image {
+        width: 100px;
+        height: 100px;
+        border-radius: 10px;
+        margin-right: 20px;
+    }
+    .trip-details {
+        flex: 1;
+    }
+    .trip-buttons {
+        display: flex;
+        align-items: center;
+    }
+    .trip-button {
+        margin-right: 10px;
+        padding: 5px 10px;
+        background-color: #2ecc71;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    .hidden {
+        display: none;
+    }
+</style>
+</head>
+<body>
+
+<%- include('../components/navbar') %>
+
+<div class="profile-section">       
+    <div class="profile-card">
+        <img class="profile-image" src="<%- userData.avatar %>" alt="Profile Image" id="profile-image">
+        <div class="profile-details">
+            <h2><%- userData.username %></h2>
+            <p>Email: <%- userData.email %></p>
+            <p>Location: Jhapa, Nepal</p>
+            <div class="profile-buttons">
+                <button class="profile-button" onclick="openFileInput()">Update Profile</button>
+                <input type="file" id="file-input" class="hidden" accept="image/*" onchange="handleFileSelect(event)">
+            </div>
+            <% if(currentUserRole === 'admin'){ %>
+               <div>
+                <br>
+                <div class="profile-buttons">
+                    <button class="profile-button" onclick="window.location.href='/admin/hotel'">Add Hotel</button>
+                </div>
+               </div>
+            <% } %>
+        </div>
+    </div>
+</div>
+
+<div class="trips-section">
+
+    <% if(currentUserRole=== 'admin'){ %>
+     
+        <div >
+            <h2 style="text-align: center;">Users</h2>
+            
+            <% datas.forEach((data)=>{ %>
+              <div class="trip2-card">
+                    <h3 style="padding-right: 10px;">Username : <%-data?.username %></h3>
+                    <p><%- data?.email %></p>
+                    <div class="trip-buttons">
+                        <button class="trip-button">See More</button>
+                        <button class="trip-button" onclick="window.location.href='/userdelete/<%- data.id %>'">Delete</button>
+                    </div>
+                </div>
+            </div>
+        
+        <%  }) %>
+     
+        </div>
+
+   <% }else{ %>
+ <div class="trips-section">
+        <h2 style="text-align: center;">My Trips</h2>
+        <button class="trip-button" onclick="window.location.href='/addtrip'">Add Trip</button>
+        <button class="trip-button" onclick="window.location.href='/bookings'">My Bookings</button>
+        <button class="trip-button" onclick="window.location.href='/shortTrips'">My Short Trips</button>
+     <% trips.length > 0 && trips.forEach((trip)=>{ %>
+        <div class="trip-card">
+            <img class="trip-image" src="<%- trip.tripImages[0].imageUrl %>" alt="Trip Image">
+            <div class="trip-details">
+                <h3><%- trip.name %></h3>
+                <p><%- trip.description %></p>
+            </div>
+            <div class="trip-buttons">
+                <button class="trip-button">See More</button>
+                <button class="trip-button" onclick="window.location.href='/tripdelete/<%- trip.id %>'">Delete</button>
+            </div>
+        </div>
+     <% }) %>
+    
+      
+    </div>
+   <% } %>
+</div>
+
+<%- include('../components/footer') %>
+
+<script>
+    function openFileInput() {
+        document.getElementById('file-input').click();
+    }
+
+    function handleFileSelect(event) {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+
+        reader.onload = function() {
+            const profileImage = document.getElementById('profile-image');
+            profileImage.src = reader.result;
+
+            // Call API to upload image
+            uploadImage(file);
+        }
+
+        reader.readAsDataURL(file);
+    }
+
+    function uploadImage(file) {
+        // Replace 'YOUR_API_ENDPOINT' with your actual API endpoint
+        const endpoint = '/editProfile';
+        const formData = new FormData();
+        formData.append('image', file);
+
+        fetch(endpoint, {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log('Image uploaded successfully');
+            } else {
+                console.error('Failed to upload image');
+            }
+        })
+        .catch(error => {
+            console.error('Error uploading image:', error);
+        });
+    }
+</script>
+
+</body>
+</html>

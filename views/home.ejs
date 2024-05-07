@@ -1,0 +1,258 @@
+<html>
+<head>
+    <title>Home</title>
+    <link rel="stylesheet" href="navbar.css">
+<style>
+* {
+  box-sizing: border-box;
+}
+
+
+.header {
+  text-align: center;
+  font-size: 16px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  color: white;
+  background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKVf1Bsge1DeWlKy4xgvqiSj73K1OueYbW9g&usqp=CAU');
+  background-size: cover;
+  padding: 30px;
+}
+
+.searchbar {
+  display: flex;
+  justify-content: center;
+  margin: 20px;
+}
+
+.searchbar input {
+  width: 40%;
+  height: 40px;
+  border: 1px solid #cccccc;
+  padding: 10px;
+}
+
+.searchbar button {
+  width: 10%;
+  height: 40px;
+  border: none;
+  background-color: #333333;
+  color: white;
+}
+
+.line {
+  width: 100%;
+  height: 2px;
+  background-color: black;
+}
+
+.title {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  margin: 20px;
+}
+/* 
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin: 20px;
+}
+
+.card-image {
+  position: relative;
+} 
+
+.card {
+  width: 20%;
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 5px 5px 10px #888888;
+  position: relative;
+} */
+
+/* .card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; */
+/* }
+
+.card h3 {
+  width: 90%;
+  height: 20%;
+  text-align: center;
+  margin: 0;
+} */
+
+
+
+
+/* 
+
+.card {
+  position: relative;
+}
+
+.card-image {
+  position: relative;
+}
+
+.card-image img {
+  width: 100%;
+  height: auto;
+}
+
+.card-image h3 {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.7); 
+  color: white;
+  padding: 10px;
+  margin: 0;
+}
+ */
+
+ .card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin: 20px;
+}
+
+.card {
+  width: 22%; /* Adjust width as needed */
+  height: 330px; /* Adjust height as needed */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 5px 5px 10px #888888;
+  position: relative;
+}
+
+/* .card-image {
+  position: relative;
+  overflow: hidden; 
+} */
+
+.card-image img {
+  margin-top: 1px;
+  width: 100%;
+  height: 287px;
+}
+
+.card-image h3 {
+  position: absolute;
+  bottom: 0; /* Position at bottom */
+  left: 0px; /* Align to left */
+  width: 100%;  /* Span full card width */
+  background-color: rgba(0, 0, 0, 1); /* Adjust opacity as needed */
+  color: white;
+  padding: 14px;
+  margin: 0;
+  transition: all 0.3s ease-in-out; /* Add smooth transition effect */
+}
+
+/* .card:hover .card-image h3 {
+  background-color: rgba(0, 8, 8, 0.5);  */
+
+
+
+</style>
+</head>
+<body>
+    <%- include('./components/navbar') %>
+
+  <div class="header">
+    <h1> Born To Have Adventure</h1>
+    <div class="searchbar">
+      <!-- <input type="text" oninput="handleSearch()" id="inputSearch"  placeholder="Search for your Trip..."> -->
+      
+      <button style="width: 30%;" onclick="window.location.href='/plan'">Plan your vacation </button>
+    </div>
+    <p>Your companion for discovering new destinations, creating and unforgettable memories wherever you go</p>
+  </div>
+<div class="line"></div>
+<div class="title">
+  <h2>MOST POPULAR TRIPS</h2>
+</div>
+<!-- <div class="card-container">
+ <% trips.forEach((trip)=>{ %>
+  <div class="card" id="trips" onclick="window.location.href='/trip/<%-trip.id%> '">
+    <img src="<%- trip.tripImages[0].imageUrl %>" alt="Images">
+    <h3><%-trip.name %></h3>
+  </div>
+ <% }) %>
+</div> -->
+
+<div class="card-container">
+  <% trips.forEach((trip) => { %>
+    <div class="card" id="trips" onclick="window.location.href='/trip/<%- trip.id %> '">
+      <div class="card-image">
+        <img src="<%- trip.tripImages[0].imageUrl %>" alt="Images">
+        <h3><%- trip.name %></h3>
+      </div>
+    </div>
+  <% }) %>
+</div>
+
+
+
+<div class="line"></div>
+<div class="title">
+  <h2>WHY SUBHA YATRA?</h2>
+</div>
+<div class="card-container">
+  <div class="card">
+    <h3>Best Prices</h3>
+  </div>
+  <div class="card">
+    <h3>Quality Service</h3>
+  </div>
+  <div class="card">
+    <h3>Customer Satisfaction</h3>
+  </div>
+  <div class="card">
+    <h3>Easy Booking</h3>
+  </div>
+</div>
+<div class="title">
+  <h2>HOW SUBHA YATRA HELPS?</h2>
+</div>
+<div class="card-container">
+  <div class="card">
+    <h3>Plan Your Trip</h3>
+  </div>
+  <div class="card">
+    <h3>Find Your Destination</h3>
+  </div>
+  <div class="card">
+    <h3>Book Your Tickets</h3>
+  </div>
+  <div class="card">
+    <h3>Enjoy Your Journey</h3>
+  </div>
+</div>
+<script>
+  function handleSearch(){
+    const input = document.getElementById('inputSearch').value.toLowerCase();
+    const cards = document.querySelectorAll('#trips');
+
+    cards.forEach(card => {
+      const title = card.querySelector('h3').textContent.toLowerCase();
+
+
+      if(title.includes(input)) {
+        card.style.display = "block";
+      } else {
+        card.style.display = "none";
+      }
+    });
+  }
+</script>
+</body>
+</html>

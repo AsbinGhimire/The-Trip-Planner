@@ -1,0 +1,156 @@
+<html>
+<head>
+    <title>Home</title>
+    <link rel="stylesheet" href="navbar.css">
+<style>
+* {
+  box-sizing: border-box;
+}
+
+
+.header {
+  text-align: center;
+  font-size: 16px;
+  
+  color: white;
+  background-color: #07aa35;
+  padding: 5px;
+}
+
+.searchbar {
+  display: flex;
+  justify-content: center;
+  margin: 20px;
+}
+
+.searchbar input {
+  width: 40%;
+  height: 40px;
+  border: 1px solid #cccccc;
+  padding: 10px;
+}
+
+.searchbar button {
+  width: 10%;
+  height: 40px;
+  border: none;
+  background-color: #333333;
+  color: white;
+}
+
+.line {
+  width: 100%;
+  height: 2px;
+  background-color: black;
+}
+
+.title {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  margin: 20px;
+}
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin: 20px;
+}
+
+.card {
+  width: 20%;
+  height: 300px;
+  /* border: 2px solid black; */ /* removed the border */
+  display: flex;
+  flex-direction: column;
+  margin: 30px;
+  align-items: center;
+  box-shadow: 5px 5px 10px #888888; /* added the box shadow */
+}
+
+.card img {
+  width: 90%;
+  height: 80%;
+  object-fit: cover;
+}
+
+.card h3 {
+  width: 90%;
+  height: 20%;
+  text-align: center;
+  margin: 0;
+}
+
+/* New styles for table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th, td {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+.action-buttons button {
+  margin-right: 5px;
+  padding: 5px 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.action-buttons button:hover {
+  background-color: #0056b3;
+}
+
+</style>
+</head>
+<body>
+    <%- include('./components/navbar') %>
+
+    <div class="title">Hotel Bookings</div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Hotel ID</th>
+          <th>Hotel Name</th>
+          <th>Address</th>
+          <th>Number of Seats Booked</th>
+          <th>Phone Number</th>
+          <th>Payment Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+ 
+    <% data.forEach((data)=>{ %>
+        <tr>
+            <td><%- data.hotelId %></td>
+            <td><%- data.hotel.hotelName %></td>
+            <td><%- data.hotel.hotelAddress %></td>
+            <td><%- data.totalSeats %></td>
+          <td>982347234</td>
+          <td><%- data.paymentStatus %></td>
+            <td class="action-buttons">
+              <button>Edit</button>
+              <button onclick="window.location.href='/deletebooking/<%- data.id %>'">Delete</button>
+            </td>
+          </tr>
+    <% }) %>
+    
+      </tbody>
+    </table>
+
+</body>
+</html>

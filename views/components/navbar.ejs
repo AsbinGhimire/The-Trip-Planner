@@ -1,0 +1,15 @@
+
+<div class="navbar">
+    <h1 onclick="window.location.href = '/'">Shuba Yatra</h1>
+    <ul>
+        <li><a href="/hotels" >Browse Hotels</a></li>
+       <% if(!currentUser){ %>
+        <li><a href="/register">Register</a></li>
+        <li><a href="/login">Login</a></li>
+       <% }else{ %>
+
+           <li><a href="/profile">Profile</a></li>
+           <li><a href="/logout" >Logout</a></li>
+           <% } %>
+    </ul>
+</div>
