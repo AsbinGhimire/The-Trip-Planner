@@ -1,201 +1,282 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Single Trip</title>
-<link rel="stylesheet" href="../navbar.css">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<!-- <meta http-equiv="refresh" content=".3"> -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%- hotel.hotelName %> | Shuba Yatra</title>
+    <link rel="stylesheet" href="/main.css">
+    <link rel="stylesheet" href="/navbar.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .hotel-hero {
+            height: 60vh;
+            position: relative;
+            overflow: hidden;
+            border-bottom-left-radius: 3rem;
+            border-bottom-right-radius: 3rem;
+        }
 
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-    }
+        .carousel, .carousel-inner, .carousel-item {
+            height: 100%;
+        }
 
-    .container {
-        margin: 20px auto;
-        padding: 0 20px;
-        display: flex;
-        flex-direction: column;
-        height: 200vh;
-    }
-.card-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  /* margin: 20px; */
-  margin-bottom: 20px;
-}
+        .carousel-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
 
-.card {
-  width: 30%;
-  height: 300px;
-  /* border: 2px solid black; */ /* removed the border */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  box-shadow: 5px 5px 10px #888888; /* added the box shadow */
-}
+        .hotel-meta-overlay {
+            position: absolute;
+            bottom: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 1000px;
+            padding: 2.5rem;
+            text-align: center;
+            color: var(--white);
+            z-index: 10;
+        }
 
-.card img {
-  width: 90%;
-  height: 80%;
-  object-fit: cover;
-}
+        .hotel-name {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            color: var(--white);
+        }
 
-.card h3 {
-  width: 90%;
-  height: 20%;
-  text-align: center;
-  margin: 0;
-}
-.checked {
-  color: orange;
-}
-</style>
+        .hotel-price-tag {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            background: var(--accent);
+            color: var(--white);
+            border-radius: var(--radius-full);
+            font-weight: 700;
+            margin-top: 1rem;
+        }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 3rem;
+            padding: var(--space-xl) 0;
+        }
+
+        .info-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .info-section h2::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: var(--radius-full);
+        }
+
+        .review-card {
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--primary);
+        }
+
+        .star-rating {
+            color: #fbbf24;
+            margin-bottom: 0.5rem;
+        }
+
+        .booking-sidebar {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
+
+        .modal-content {
+            border-radius: var(--radius-lg);
+            border: none;
+            overflow: hidden;
+        }
+
+        .modal-header {
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+        }
+
+        .form-control, .form-select {
+            padding: 0.75rem;
+            border-radius: var(--radius-md);
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .details-grid { grid-template-columns: 1fr; }
+            .hotel-name { font-size: 2.5rem; }
+        }
+    </style>
 </head>
 <body>
-
     <%- include('./components/navbar') %>
 
-
-<div class="container">
-    <div id="carouselExample" class="carousel slide" style="
-    height: fit-content;">
-        <div class="carousel-inner">
-        <% hotel.hotelImages && hotel.hotelImages.length > 0 && hotel.hotelImages.forEach((ti)=>{ %>
-            <div class="carousel-item active">
-                <img src="http://localhost:3000/<%- ti.imageUrl %>" class="d-block w-100" alt="..."">
-              </div>
-       <% }) %>
-    
+    <header class="hotel-hero">
+        <div id="hotelCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <% if(hotel.hotelImages && hotel.hotelImages.length > 0) { %>
+                    <% hotel.hotelImages.forEach((img, index) => { %>
+                        <div class="carousel-item <%= index === 0 ? 'active' : '' %>">
+                            <img src="/<%- img.imageUrl %>" alt="Hotel Image">
+                        </div>
+                    <% }) %>
+                <% } else { %>
+                    <div class="carousel-item active">
+                        <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?fit=crop&w=1200" alt="Default">
+                    </div>
+                <% } %>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#hotelCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#hotelCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </button>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Next</span>
-        </button>
-      </div>
-      <div class="container2">
-        <i><%- hotel.hotelName %></i>
-        <p><%- hotel.hotelDescription %></p>
-        <p><%- hotel.hotelAddress %></p>
-        <p><%- hotel.hotelPrice %></p>
-       
-        <% 
-        let hotelIsBooked = false;
-   
-
-          bookedHotelsId?.forEach((booking) => {
-              if (booking.hotelId === hotel.id) {
-                  hotelIsBooked = true;
-              }
-          });
-       
-        %>
         
-        <% if (hotelIsBooked) { %>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop2" disabled>
-                Booked 
-            </button>
-        <% } else { %>
-            <% if(currentUser){ %>
-              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop2">
-                Book Now 
-            </button>
-           <% } %>
-        <% } %>
-        <% if(currentUser){ %>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-          Rate
-        </button>
-        <% } %>
+        <div class=" hotel-meta-overlay" style="border-radius: var(--radius-xl);">
+            <h1 class="hotel-name"><%- hotel.hotelName %></h1>
+            <p style="opacity: 0.8; font-size: 1.2rem;">📍 <%- hotel.hotelAddress %></p>
+            <div class="hotel-price-tag">Rs. <%- hotel.hotelPrice %> / Night</div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="details-grid">
+            <div class="info-section">
+                <div class="card-premium" style="padding: 2.5rem; margin-bottom: 3rem;">
+                    <h2>About this Hotel</h2>
+                    <p style="color: var(--text-secondary); white-space: pre-line;"><%- hotel.hotelDescription %></p>
+                </div>
+
+                <div class="info-section">
+                    <h2>Guest Reviews</h2>
+                    <% if(reviews && reviews.length > 0) { %>
+                        <% reviews.forEach((review) => { %>
+                            <div class="card-premium review-card">
+                                <div class="star-rating">
+                                    <% for(let i = 0; i < review.rating; i++) { %>★<% } %>
+                                    <% for(let i = review.rating; i < 5; i++) { %>☆<% } %>
+                                </div>
+                                <p style="font-style: italic; margin-bottom: 0.5rem;">"<%- review.message %>"</p>
+                                <small style="color: var(--text-muted);">— <%- review.user.username %></small>
+                            </div>
+                        <% }) %>
+                    <% } else { %>
+                        <p style="color: var(--text-muted); padding: 2rem; border: 2px dashed #e2e8f0; border-radius: var(--radius-md); text-align: center;">No reviews yet. Be the first to share your experience!</p>
+                    <% } %>
+                </div>
+            </div>
+
+            <aside class="booking-sidebar">
+                <div class="card-premium" style="padding: 2rem; text-align: center;">
+                    <h3 style="margin-bottom: 1.5rem;">Reserve Your Stay</h3>
+                    
+                    <% 
+                        let hotelIsBooked = false;
+                        if(typeof bookedHotelsId !== 'undefined') {
+                            bookedHotelsId.forEach((booking) => {
+                                if (booking.hotelId === hotel.id) hotelIsBooked = true;
+                            });
+                        }
+                    %>
+
+                    <% if (hotelIsBooked) { %>
+                        <button class="btn btn-secondary" style="width: 100%;" disabled>Already Booked ✅</button>
+                    <% } else { %>
+                        <% if(currentUser) { %>
+                            <button class="btn btn-primary" style="width: 100%;" data-bs-toggle="modal" data-bs-target="#bookingModal">Book This Hotel</button>
+                        <% } else { %>
+                            <a href="/login" class="btn btn-primary" style="width: 100%;">Login to Book</a>
+                        <% } %>
+                    <% } %>
+
+                    <% if(currentUser) { %>
+                        <button class="btn btn-secondary" style="width: 100%; margin-top: 1rem;" data-bs-toggle="modal" data-bs-target="#ratingModal">Write a Review</button>
+                    <% } %>
+                    
+                    <p style="margin-top: 1.5rem; font-size: 0.85rem; color: var(--text-muted);">Instant confirmation • Best price guarantee</p>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <!-- Booking Modal -->
+    <div class="modal fade" id="bookingModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Book Your Stay</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <form action="/hotelbook/<%- hotel.id %>/" method="post">
+                    <div class="modal-body p-4">
+                        <label class="form-label">Check-in Date</label>
+                        <input type="date" name="date" class="form-control" required>
+                        
+                        <label class="form-label">Number of Beds / Rooms</label>
+                        <input type="number" name="seats" class="form-control" placeholder="e.g. 2" required>
+                        
+                        <label class="form-label">Contact Number</label>
+                        <input type="tel" name="phoneNo" class="form-control" placeholder="Your mobile number" required>
+                        
+                        <label class="form-label">Payment Method</label>
+                        <select name="paymentType" class="form-select">
+                            <option value="cod">Cash on Delivery (Pay at Hotel)</option>
+                            <option value="khalti">Khalti Digital Wallet</option>
+                        </select>
+                        
+                        <label class="form-label">Special Requests</label>
+                        <textarea name="message" class="form-control" rows="3" placeholder="Anything else we should know?"></textarea>
+                    </div>
+                    <div class="modal-footer border-0">
+                        <button type="submit" class="btn btn-primary w-100 py-3">Confirm Reservation</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-    <div>
-      <div >
-        <% reviews.forEach((review)=>{ %>
-          <% for(var i = 1; i <= review.rating;i++){ %>
-            <span class="fa fa-star checked"></span>
 
-         <%  } %>
-          <i style="display: block;"><%- review?.message %> by <%- review?.user?.username %></i>
-        <% }) %>
-      </div>
+    <!-- Rating Modal -->
+    <div class="modal fade" id="ratingModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Rate Your Experience</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <form action="/hotel/<%- hotel.id %>/review" method="post">
+                    <div class="modal-body p-4">
+                        <label class="form-label">Your Rating (1-5)</label>
+                        <input type="number" name="rating" class="form-control" min="1" max="5" required>
+                        
+                        <label class="form-label">Your Review</label>
+                        <textarea name="message" class="form-control" rows="4" placeholder="How was your stay?" required></textarea>
+                    </div>
+                    <div class="modal-footer border-0">
+                        <button type="submit" class="btn btn-primary w-100 py-3">Submit Review</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 
-</div>
+    <%- include('./components/footer') %>
 
-<div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog" style="max-width: 400px;">
-    <div class="modal-content">
-      <div class="modal-header">
-
-        <h1 class="modal-title fs-5" id="staticBackdropLabel" style="margin-bottom: 0;">Book Hotel</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-     <form action="/hotelbook/<%-hotel.id%>/" method="post">
-      <div class="modal-body" style="padding: 20px;">
-        <label for="date" style="margin-bottom: 5px;">Date:</label>
-        <input type="date" name="date" id="date" style="margin-bottom: 10px; width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
-        <label for="seats" style="margin-bottom: 5px;">Number of Beds:</label>
-        <input type="number" name="seats" id="seats" placeholder="Number of beds" style="margin-bottom: 10px; width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
-        <label for="phoneNumber" style="margin-bottom: 5px;">Contact Number:</label>
-        <input type="tel" name="phoneNo" id="phoneNumber" placeholder="Contact number" style="margin-bottom: 10px; width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
-        <label for="phoneNumber" style="margin-bottom: 5px;">Payment Type:</label>
-        <select name="paymentType" id="paymentType">
-          <option value="cod">COD</option>
-          <option value="khalti">Khalti</option>
-        </select>
-        <textarea name="message" id="message" cols="30" rows="3" placeholder="Enter message" style="margin-bottom: 10px; width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc;"></textarea>
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-primary" style="width: 100%;" id="bookBtn">Book Hotel</button>
-      </div>
-     </form>
-    </div>
-  </div>
-</div>
-
-
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="staticBackdropLabel">Rate Trip</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-     <form action="/hotel/<%-hotel.id%>/review" method="post">
-      <div class="modal-body" style="display: flex;flex-direction: column;justify-content: space-between;height: 150px;">
-        <input type="number" name="rating" id="" placeholder="rating" min="0" max="5">
-        <textarea name="message" id="" cols="30" rows="3" placeholder="Enter message"></textarea>
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-primary">Rate</button>
-      </div>
-
-     </form>
-    </div>
-  </div>
-</div>
-
-
-<%- include('./components/footer') %>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-<!-- <script>
-
-  const type = document.getElementById('paymentType').value 
-  const btn = document.getElementById('bookBtn') 
-  if(type == 'khalti'){
-    btn.textContent = "Pay with khalti"
-  }
-</script> -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

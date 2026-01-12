@@ -1,80 +1,135 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Registration Page</title>
-<link rel="stylesheet" href="navbar.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Shuba Yatra</title>
+    <link rel="stylesheet" href="/main.css">
+    <link rel="stylesheet" href="/navbar.css">
+    <style>
+        .auth-wrapper {
+            min-height: calc(100vh - 200px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-xl) 0;
+            background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.05), transparent),
+                        radial-gradient(circle at bottom left, rgba(20, 184, 166, 0.05), transparent);
+        }
 
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-    }
-    .container {
-        margin: 20px auto;
-        max-width: 600px;
-        padding: 0 20px;
-    }
-    .card {
-        background-color: #f9f9f9;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        padding: 20px;
-    }
-    .form-group {
-        margin-bottom: 20px;
-    }
-    label {
-        display: block;
-        font-weight: bold;
-    }
-    input[type="text"],
-    input[type="email"],
-    input[type="password"] {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        box-sizing: border-box;
-    }
-    input[type="submit"] {
-        background-color: #333;
-        color: #fff;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
+        .auth-card {
+            width: 100%;
+            max-width: 450px;
+            padding: var(--space-lg);
+        }
 
-</style>
+        .auth-header {
+            text-align: center;
+            margin-bottom: var(--space-lg);
+        }
+
+        .auth-title {
+            font-size: 2rem;
+            margin-bottom: var(--space-xs);
+        }
+
+        .auth-subtitle {
+            color: var(--text-secondary);
+        }
+
+        .form-group {
+            margin-bottom: var(--space-md);
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: var(--radius-md);
+            font-family: inherit;
+            transition: var(--transition-base);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .error-message {
+            background: #fef2f2;
+            color: #dc2626;
+            padding: 0.75rem;
+            border-radius: var(--radius-sm);
+            margin-bottom: var(--space-md);
+            font-size: 0.9rem;
+            border: 1px solid #fee2e2;
+        }
+
+        .auth-footer {
+            margin-top: var(--space-md);
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .auth-link {
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .auth-link:hover {
+            color: var(--primary-hover);
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-
     <%- include('./components/navbar') %>
-<div class="container">
-    <div class="card">
-        <form action="/login" method="post">
-            <div class="form-group">
-                <p style="color: red;"><%- message %></p>
-            </div>
-            <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
-            </div>
-            <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-            <input type="submit" value="Login"><br><br>
-            <a href="/forgotPassword">Did you forgot Password ? </a>
-        </form>
-    </div>
-</div>
 
-<%- include('./components/footer') %>
+    <main class="auth-wrapper">
+        <div class="card-premium auth-card">
+            <div class="auth-header">
+                <h1 class="auth-title">Welcome Back</h1>
+                <p class="auth-subtitle">Continue your premium journey</p>
+            </div>
 
+            <% if(message && message.length > 0) { %>
+                <div class="error-message">
+                    <%- message %>
+                </div>
+            <% } %>
 
+            <form action="/login" method="post">
+                <div class="form-group">
+                    <label class="form-label" for="email">Email Address</label>
+                    <input class="form-input" type="email" id="email" name="email" placeholder="you@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="password">Password</label>
+                    <input class="form-input" type="password" id="password" name="password" placeholder="••••••••" required>
+                </div>
+                
+                <div style="margin-bottom: var(--space-md); text-align: right;">
+                    <a href="/forgotPassword" class="auth-link" style="font-size: 0.85rem;">Forgot Password?</a>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Sign In</button>
+            </form>
+
+            <div class="auth-footer">
+                Don't have an account? <a href="/register" class="auth-link">Create one</a>
+            </div>
+        </div>
+    </main>
+
+    <%- include('./components/footer') %>
 </body>
 </html>

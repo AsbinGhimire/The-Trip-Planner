@@ -32,27 +32,34 @@ app.use(session({
 
 app.use(cookieParser())
 app.use(async(req,res,next)=>{
-    res.locals.currentUser = req.cookies.token
+    try {
+        res.locals.currentUser = req.cookies.token
+        const token = req.cookies.token 
+        res.locals.bookedHotelsId = [] // Initialize here for all cases
 
-    const token = req.cookies.token 
-    res.locals.bookedHotelsId = []
-
-    if(token){
-        const decryptedResult = await decodeToken(token,process.env.SECRET_KEY)
-        if(decryptedResult && decryptedResult.id){
-            const bookedHotelsId = await hotelBooks.findAll({
-                where : {
-                    userId : decryptedResult.id
-                },
-                attributes:['hotelId']
-            })
-            res.locals.currentUserId = decryptedResult.id
-            res.locals.currentUserRole = decryptedResult.role
-            res.locals.bookedHotelsId = bookedHotelsId
+        if(token){
+            const decryptedResult = await decodeToken(token,process.env.SECRET_KEY)
+            if(decryptedResult && decryptedResult.id){
+                const bookedHotelsId = await hotelBooks.findAll({
+                    where : {
+                        userId : decryptedResult.id
+                    },
+                    attributes:['hotelId']
+                })
+                res.locals.currentUserId = decryptedResult.id
+                res.locals.currentUserRole = decryptedResult.role
+                res.locals.bookedHotelsId = bookedHotelsId
+            }
         }
+        next()
+    } catch (error) {
+        console.error("Middleware Error:", error);
+        res.locals.currentUser = null; // Clear current user on error
+        res.locals.currentUserId = null; // Clear current user ID on error
+        res.locals.currentUserRole = null; // Clear current user role on error
+        res.locals.bookedHotelsId = []; // Ensure it's an empty array on error
+        next(); // Continue to the next middleware/route
     }
-
-    next()
 })
 
 app.use('/',campgroundRoute)

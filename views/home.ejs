@@ -1,258 +1,268 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Home</title>
-    <link rel="stylesheet" href="navbar.css">
-<style>
-* {
-  box-sizing: border-box;
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shuba Yatra | Premium Trip Planner</title>
+    <link rel="stylesheet" href="/main.css">
+    <link rel="stylesheet" href="/navbar.css">
+    <style>
+        .hero {
+            position: relative;
+            padding: 8rem 0;
+            background: linear-gradient(rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.7)), 
+                        url('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?ixlib=rb-4.0.3&auto=format&fit=crop&w=2021&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: var(--white);
+            text-align: center;
+            border-bottom-left-radius: 4rem;
+            border-bottom-right-radius: 4rem;
+            margin-bottom: -4rem;
+            z-index: 1;
+        }
 
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
 
-.header {
-  text-align: center;
-  font-size: 16px;
-  margin-top: 10px;
-  margin-bottom: 20px;
-  color: white;
-  background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKVf1Bsge1DeWlKy4xgvqiSj73K1OueYbW9g&usqp=CAU');
-  background-size: cover;
-  padding: 30px;
-}
+        .hero h1 {
+            font-size: 4rem;
+            color: var(--white);
+            margin-bottom: var(--space-md);
+            animation: fadeInUp 0.8s ease-out;
+        }
 
-.searchbar {
-  display: flex;
-  justify-content: center;
-  margin: 20px;
-}
+        .hero p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            margin-bottom: var(--space-lg);
+            animation: fadeInUp 1s ease-out;
+        }
 
-.searchbar input {
-  width: 40%;
-  height: 40px;
-  border: 1px solid #cccccc;
-  padding: 10px;
-}
+        .hero-btns {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-md);
+            animation: fadeInUp 1.2s ease-out;
+        }
 
-.searchbar button {
-  width: 10%;
-  height: 40px;
-  border: none;
-  background-color: #333333;
-  color: white;
-}
+        .btn-large {
+            padding: 1rem 2.5rem;
+            font-size: 1.125rem;
+        }
 
-.line {
-  width: 100%;
-  height: 2px;
-  background-color: black;
-}
+        .section-header {
+            text-align: center;
+            margin-bottom: var(--space-xl);
+            position: relative;
+            z-index: 2;
+        }
 
-.title {
-  text-align: center;
-  font-size: 24px;
-  font-weight: bold;
-  margin: 20px;
-}
-/* 
-.card-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  margin: 20px;
-}
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: var(--space-xs);
+        }
 
-.card-image {
-  position: relative;
-} 
+        .section-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
 
-.card {
-  width: 20%;
-  height: 300px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  box-shadow: 5px 5px 10px #888888;
-  position: relative;
-} */
+        .trips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: var(--space-lg);
+            margin-top: var(--space-lg);
+        }
 
-/* .card img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; */
-/* }
+        .trip-card {
+            cursor: pointer;
+        }
 
-.card h3 {
-  width: 90%;
-  height: 20%;
-  text-align: center;
-  margin: 0;
-} */
+        .trip-image-wrapper {
+            position: relative;
+            height: 240px;
+            overflow: hidden;
+        }
 
+        .trip-image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition-slow);
+        }
 
+        .trip-card:hover .trip-image-wrapper img {
+            transform: scale(1.1);
+        }
 
+        .trip-info {
+            padding: var(--space-md);
+        }
 
-/* 
+        .trip-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: var(--space-xs);
+        }
 
-.card {
-  position: relative;
-}
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-lg);
+        }
 
-.card-image {
-  position: relative;
-}
+        .feature-item {
+            padding: var(--space-lg);
+            text-align: center;
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition-base);
+        }
 
-.card-image img {
-  width: 100%;
-  height: auto;
-}
+        .feature-item:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
 
-.card-image h3 {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background-color: rgba(0, 0, 0, 0.7); 
-  color: white;
-  padding: 10px;
-  margin: 0;
-}
- */
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: var(--space-sm);
+            display: block;
+        }
 
- .card-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  margin: 20px;
-}
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-.card {
-  width: 22%; /* Adjust width as needed */
-  height: 330px; /* Adjust height as needed */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  box-shadow: 5px 5px 10px #888888;
-  position: relative;
-}
-
-/* .card-image {
-  position: relative;
-  overflow: hidden; 
-} */
-
-.card-image img {
-  margin-top: 1px;
-  width: 100%;
-  height: 287px;
-}
-
-.card-image h3 {
-  position: absolute;
-  bottom: 0; /* Position at bottom */
-  left: 0px; /* Align to left */
-  width: 100%;  /* Span full card width */
-  background-color: rgba(0, 0, 0, 1); /* Adjust opacity as needed */
-  color: white;
-  padding: 14px;
-  margin: 0;
-  transition: all 0.3s ease-in-out; /* Add smooth transition effect */
-}
-
-/* .card:hover .card-image h3 {
-  background-color: rgba(0, 8, 8, 0.5);  */
-
-
-
-</style>
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .features-grid { grid-template-columns: repeat(2, 1fr); }
+            .hero-btns { flex-direction: column; align-items: center; }
+        }
+    </style>
 </head>
 <body>
     <%- include('./components/navbar') %>
 
-  <div class="header">
-    <h1> Born To Have Adventure</h1>
-    <div class="searchbar">
-      <!-- <input type="text" oninput="handleSearch()" id="inputSearch"  placeholder="Search for your Trip..."> -->
-      
-      <button style="width: 30%;" onclick="window.location.href='/plan'">Plan your vacation </button>
-    </div>
-    <p>Your companion for discovering new destinations, creating and unforgettable memories wherever you go</p>
-  </div>
-<div class="line"></div>
-<div class="title">
-  <h2>MOST POPULAR TRIPS</h2>
-</div>
-<!-- <div class="card-container">
- <% trips.forEach((trip)=>{ %>
-  <div class="card" id="trips" onclick="window.location.href='/trip/<%-trip.id%> '">
-    <img src="<%- trip.tripImages[0].imageUrl %>" alt="Images">
-    <h3><%-trip.name %></h3>
-  </div>
- <% }) %>
-</div> -->
+    <header class="hero">
+        <div class="container hero-content">
+            <h1>Born To Have Adventure</h1>
+            <p>Your premium companion for discovering new destinations, creating unforgettable memories, and exploring the world in style.</p>
+            <div class="hero-btns">
+                <button class="btn btn-primary btn-large" onclick="window.location.href='/plan'">Plan Your Trip</button>
+                <button class="btn btn-secondary btn-large" onclick="window.location.href='/hotels'">View Hotels</button>
+            </div>
+        </div>
+    </header>
 
-<div class="card-container">
-  <% trips.forEach((trip) => { %>
-    <div class="card" id="trips" onclick="window.location.href='/trip/<%- trip.id %> '">
-      <div class="card-image">
-        <img src="<%- trip.tripImages[0].imageUrl %>" alt="Images">
-        <h3><%- trip.name %></h3>
-      </div>
-    </div>
-  <% }) %>
-</div>
+    <main class="container section">
+        <div class="section-header">
+            <h2 class="section-title">MOST POPULAR TRIPS</h2>
+            <p class="section-subtitle">Discover our curated list of exceptional destinations</p>
+        </div>
 
+        <div class="trips-grid">
+            <% trips.forEach((trip) => { %>
+                <article class="card-premium trip-card" onclick="window.location.href='/trip/<%- trip.id %>'">
+                    <div class="trip-image-wrapper">
+                        <img src="<%- trip.tripImages[0].imageUrl %>" alt="<%- trip.name %>">
+                        <div class="glass" style="position: absolute; bottom: 0; left: 0; right: 0; padding: 1rem;">
+                            <h3 style="margin: 0; color: var(--text-primary);"><%- trip.name %></h3>
+                        </div>
+                    </div>
+                </article>
+            <% }) %>
+        </div>
+    </main>
 
+    <section class="section" style="background-color: #f1f5f9;">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">WHY SUBHA YATRA?</h2>
+                <p class="section-subtitle">The standard for premium travel planning</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-item">
+                    <span class="feature-icon">💎</span>
+                    <h3>Best Prices</h3>
+                    <p style="color: var(--text-secondary); margin-top: 0.5rem;">Unmatched value for luxury travel.</p>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">🌟</span>
+                    <h3>Quality Service</h3>
+                    <p style="color: var(--text-secondary); margin-top: 0.5rem;">Dedicated support for every journey.</p>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">😊</span>
+                    <h3>Satisfaction</h3>
+                    <p style="color: var(--text-secondary); margin-top: 0.5rem;">Memories that last a lifetime.</p>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">⚡</span>
+                    <h3>Easy Booking</h3>
+                    <p style="color: var(--text-secondary); margin-top: 0.5rem;">Seamless and intuitive experience.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<div class="line"></div>
-<div class="title">
-  <h2>WHY SUBHA YATRA?</h2>
-</div>
-<div class="card-container">
-  <div class="card">
-    <h3>Best Prices</h3>
-  </div>
-  <div class="card">
-    <h3>Quality Service</h3>
-  </div>
-  <div class="card">
-    <h3>Customer Satisfaction</h3>
-  </div>
-  <div class="card">
-    <h3>Easy Booking</h3>
-  </div>
-</div>
-<div class="title">
-  <h2>HOW SUBHA YATRA HELPS?</h2>
-</div>
-<div class="card-container">
-  <div class="card">
-    <h3>Plan Your Trip</h3>
-  </div>
-  <div class="card">
-    <h3>Find Your Destination</h3>
-  </div>
-  <div class="card">
-    <h3>Book Your Tickets</h3>
-  </div>
-  <div class="card">
-    <h3>Enjoy Your Journey</h3>
-  </div>
-</div>
-<script>
-  function handleSearch(){
-    const input = document.getElementById('inputSearch').value.toLowerCase();
-    const cards = document.querySelectorAll('#trips');
+    <section class="container section">
+        <div class="section-header">
+            <h2 class="section-title">HOW SUBHA YATRA HELPS?</h2>
+            <p class="section-subtitle">Simplified planning for extraordinary trips</p>
+        </div>
+        
+        <div class="features-grid">
+            <div class="feature-item card-premium">
+                <span class="feature-icon">📝</span>
+                <h3>Plan Your Trip</h3>
+            </div>
+            <div class="feature-item card-premium">
+                <span class="feature-icon">📍</span>
+                <h3>Find Destination</h3>
+            </div>
+            <div class="feature-item card-premium">
+                <span class="feature-icon">🎟️</span>
+                <h3>Book Tickets</h3>
+            </div>
+            <div class="feature-item card-premium">
+                <span class="feature-icon">⛵</span>
+                <h3>Enjoy Journey</h3>
+            </div>
+        </div>
+    </section>
 
-    cards.forEach(card => {
-      const title = card.querySelector('h3').textContent.toLowerCase();
+    <%- include('./components/footer') %>
 
+    <script>
+        // Simple search functionality if needed later
+        function handleSearch(){
+            const input = document.getElementById('inputSearch').value.toLowerCase();
+            const cards = document.querySelectorAll('.trip-card');
 
-      if(title.includes(input)) {
-        card.style.display = "block";
-      } else {
-        card.style.display = "none";
-      }
-    });
-  }
-</script>
+            cards.forEach(card => {
+                const title = card.querySelector('h3').textContent.toLowerCase();
+                if(title.includes(input)) {
+                    card.style.display = "block";
+                } else {
+                    card.style.display = "none";
+                }
+            });
+        }
+    </script>
 </body>
 </html>

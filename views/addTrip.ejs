@@ -1,95 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Add Hotel Page</title>
-<link rel="stylesheet" href="../navbar.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Trip | Admin Console</title>
+    <link rel="stylesheet" href="/main.css">
+    <link rel="stylesheet" href="/navbar.css">
+    <style>
+        .admin-wrapper {
+            padding: 4rem 0;
+            background: #f1f5f9;
+            min-height: calc(100vh - 150px);
+        }
 
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-    }
+        .form-card {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 3rem;
+            background: var(--white);
+        }
 
-    .container {
-        margin: 20px auto;
-        max-width: 600px;
-        padding: 0 20px;
-    }
-    .card {
-        background-color: #f9f9f9;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        padding: 20px;
-    }
-    .form-group {
-        margin-bottom: 20px;
-    }
-    label {
-        display: block;
-        font-weight: bold;
-    }
-    input[type="text"],
-    input[type="email"],
-    input[type="password"] {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        box-sizing: border-box;
-    }
-    input[type="submit"] {
-        background-color: #333;
-        color: #fff;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
+        .form-header {
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
 
-</style>
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #cbd5e1;
+            border-radius: var(--radius-md);
+            font-family: inherit;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .file-upload-box {
+            border: 2px dashed #cbd5e1;
+            padding: 2rem;
+            text-align: center;
+            border-radius: var(--radius-md);
+            background: #f8fafc;
+            cursor: pointer;
+            transition: var(--transition-base);
+        }
+
+        .file-upload-box:hover {
+            border-color: var(--primary);
+            background: #f1f5f9;
+        }
+    </style>
 </head>
 <body>
-
     <%- include('./components/navbar') %>
 
+    <main class="admin-wrapper">
+        <div class="container">
+            <div class="card-premium form-card">
+                <div class="form-header">
+                    <span class="feature-badge">Destination Management</span>
+                    <h1 style="font-size: 2rem; margin-top: 0.5rem;">Curate New Trip</h1>
+                </div>
 
-<div class="container">
-    <div class="card">
-        <form action="/addtrip/" method="post" enctype="multipart/form-data">
-            <div class="form-group">
-                <p  style="color: red;"><%- message %></p>
-            </div>
-            <div class="form-group">
-                <label for="Name">Name:</label>
-                <input type="text" id="Name" name="name" required>
-            </div>
-            <div class="form-group">
-                <label for="location">location:</label>
-                <input type="text" id="location" name="location" required>
-            </div>
-            <div class="form-group">
-                <label for="Famous For">Famous For:</label>
-                <input type="text" id="Famous For" name="famousFor" required>
-            </div>
-            <div class="form-group">
-                <label for="Image">Image:</label>
-                <input type="file" id="Image" name="images" required multiple>
-            </div>
-            <div class="form-group">
-                <label for="description">description:</label>
-                <textarea name="description" id="description" cols="70" rows="7"></textarea>
-            </div>
-            <input type="submit" value="Add Trip"><br><br>
+                <% if(message && message.length > 0) { %>
+                    <div style="background: #fef2f2; color: #dc2626; padding: 1rem; border-radius: var(--radius-sm); margin-bottom: 2rem;">
+                        <%- message %>
+                    </div>
+                <% } %>
 
-        </form>
-    </div>
-</div>
+                <form action="/addtrip/" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label class="form-label">Trip Name</label>
+                        <input type="text" name="name" class="form-control" placeholder="Mount Everest Base Camp Trek" required>
+                    </div>
 
-<%- include('./components/footer') %>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">Geography / Location</label>
+                            <input type="text" name="location" class="form-control" placeholder="Solukhumbu Region, Nepal" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Primary Attraction (Famous For)</label>
+                            <input type="text" name="famousFor" class="form-control" placeholder="Adventure, Glaciers, High Peaks" required>
+                        </div>
+                    </div>
 
+                    <div class="form-group">
+                        <label class="form-label">Detailed Story / Description</label>
+                        <textarea name="description" class="form-control" placeholder="Paint a picture of the journey, challenges, and rewards..."></textarea>
+                    </div>
 
+                    <div class="form-group">
+                        <label class="form-label">Trip Gallery</label>
+                        <div class="file-upload-box" onclick="document.getElementById('images').click()">
+                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">🌄</div>
+                            <p style="margin: 0; font-weight: 500;">Select breathtaking destination photos</p>
+                            <small style="color: var(--text-muted);">Multiple high-resolution files supported</small>
+                            <input type="file" id="images" name="images" required multiple style="display: none;">
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 3rem; display: flex; gap: 1rem; justify-content: flex-end;">
+                        <button type="button" class="btn btn-secondary" onclick="history.back()">Back</button>
+                        <button type="submit" class="btn btn-primary" style="padding-left: 3rem; padding-right: 3rem;">Publish Destination</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <%- include('./components/footer') %>
 </body>
 </html>

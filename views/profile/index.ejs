@@ -1,216 +1,274 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Profile Page</title>
-<link rel="stylesheet" href="navbar.css">
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-    }
-  
-    .profile-section {
-        padding: 20px;
-        height: 30vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    .profile-card {
-        background-color: #fff;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        padding: 20px;
-        display: flex;
-        align-items: center;
-    }
-    .profile-image {
-        width: 100px;
-        height: 100px;
-        border-radius: 50%;
-        margin-right: 20px;
-    }
-    .profile-details {
-        flex: 1;
-    }
-    .trips-section {
-        padding: 20px;
-        height: fit-content;
-        
-        
-    }
-    .trip-card {
-        background-color: #fff;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        padding: 20px;
-        margin-bottom: 20px;
-        display: flex;
-        margin: 20px auto;
-        width: 70vw;
-        align-items: center;
-    }
-    .trip2-card {
-        background-color: #fff;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        padding: 20px;
-       
-        margin-bottom: 20px;
-     
-        margin: 10px auto;
-        
-        width: 70vw;
-        align-items: center;
-    }
-    .trip-image {
-        width: 100px;
-        height: 100px;
-        border-radius: 10px;
-        margin-right: 20px;
-    }
-    .trip-details {
-        flex: 1;
-    }
-    .trip-buttons {
-        display: flex;
-        align-items: center;
-    }
-    .trip-button {
-        margin-right: 10px;
-        padding: 5px 10px;
-        background-color: #2ecc71;
-        color: #fff;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-    .hidden {
-        display: none;
-    }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Account | Shuba Yatra</title>
+    <link rel="stylesheet" href="/main.css">
+    <link rel="stylesheet" href="/navbar.css">
+    <style>
+        .profile-hero {
+            padding: 4rem 0;
+            background: linear-gradient(135deg, var(--text-primary), #1e293b);
+            color: var(--white);
+            margin-bottom: 2rem;
+            border-bottom-left-radius: 3rem;
+            border-bottom-right-radius: 3rem;
+        }
+
+        .avatar-container {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin-bottom: 1.5rem;
+        }
+
+        .profile-avatar {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid rgba(255, 255, 255, 0.2);
+            transition: var(--transition-base);
+        }
+
+        .avatar-edit-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            cursor: pointer;
+            transition: var(--transition-base);
+        }
+
+        .avatar-container:hover .avatar-edit-overlay {
+            opacity: 1;
+        }
+
+        .profile-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 1.5rem;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            opacity: 0.6;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 3rem;
+            padding: 3rem 0;
+        }
+
+        .side-nav {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
+
+        .nav-link-custom {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 1.5rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: var(--radius-md);
+            margin-bottom: 0.5rem;
+            transition: var(--transition-base);
+            font-weight: 500;
+        }
+
+        .nav-link-custom:hover, .nav-link-custom.active {
+            background: rgba(99, 102, 241, 0.05);
+            color: var(--primary);
+        }
+
+        .admin-badge {
+            background: var(--teal);
+            color: white;
+            font-size: 0.7rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: var(--radius-sm);
+            text-transform: uppercase;
+            font-weight: 800;
+            margin-left: 0.5rem;
+        }
+
+        .trip-mini-card {
+            display: flex;
+            gap: 1.5rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            align-items: center;
+        }
+
+        .user-mini-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            margin-bottom: 1rem;
+        }
+    </style>
 </head>
 <body>
+    <%- include('../components/navbar') %>
 
-<%- include('../components/navbar') %>
-
-<div class="profile-section">       
-    <div class="profile-card">
-        <img class="profile-image" src="<%- userData.avatar %>" alt="Profile Image" id="profile-image">
-        <div class="profile-details">
-            <h2><%- userData.username %></h2>
-            <p>Email: <%- userData.email %></p>
-            <p>Location: Jhapa, Nepal</p>
-            <div class="profile-buttons">
-                <button class="profile-button" onclick="openFileInput()">Update Profile</button>
-                <input type="file" id="file-input" class="hidden" accept="image/*" onchange="handleFileSelect(event)">
-            </div>
-            <% if(currentUserRole === 'admin'){ %>
-               <div>
-                <br>
-                <div class="profile-buttons">
-                    <button class="profile-button" onclick="window.location.href='/admin/hotel'">Add Hotel</button>
+    <header class="profile-hero">
+        <div class="container" style="display: flex; align-items: flex-end; justify-content: space-between;">
+            <div>
+                <div class="avatar-container">
+                    <img src="<%- userData.avatar %>" alt="Avatar" class="profile-avatar" id="profile-img">
+                    <div class="avatar-edit-overlay" onclick="document.getElementById('file-input').click()">
+                        <span>📸 Edit</span>
+                    </div>
+                    <input type="file" id="file-input" style="display: none;" accept="image/*" onchange="handleFileSelect(event)">
                 </div>
-               </div>
-            <% } %>
-        </div>
-    </div>
-</div>
-
-<div class="trips-section">
-
-    <% if(currentUserRole=== 'admin'){ %>
-     
-        <div >
-            <h2 style="text-align: center;">Users</h2>
+                <h1 style="margin: 0; font-size: 2.5rem; font-weight: 800;">
+                    <%- userData.username %>
+                    <% if(currentUserRole === 'admin'){ %><span class="admin-badge">Admin</span><% } %>
+                </h1>
+                <p style="opacity: 0.7; margin-top: 0.5rem;">Member since 2024 • Traveler</p>
+            </div>
             
-            <% datas.forEach((data)=>{ %>
-              <div class="trip2-card">
-                    <h3 style="padding-right: 10px;">Username : <%-data?.username %></h3>
-                    <p><%- data?.email %></p>
-                    <div class="trip-buttons">
-                        <button class="trip-button">See More</button>
-                        <button class="trip-button" onclick="window.location.href='/userdelete/<%- data.id %>'">Delete</button>
+            <div class="glass-dark" style="border-radius: var(--radius-xl); min-width: 400px; padding: 1rem;">
+                <div class="profile-stats">
+                    <div class="stat-item">
+                        <span class="stat-value"><%- trips.length %></span>
+                        <span class="stat-label">Trips</span>
+                    </div>
+                    <div class="stat-item" style="border-left: 1px solid rgba(255,255,255,0.1); border-right: 1px solid rgba(255,255,255,0.1);">
+                        <span class="stat-value">12</span>
+                        <span class="stat-label">Reviews</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value">5</span>
+                        <span class="stat-label">Stays</span>
                     </div>
                 </div>
             </div>
-        
-        <%  }) %>
-     
         </div>
+    </header>
 
-   <% }else{ %>
- <div class="trips-section">
-        <h2 style="text-align: center;">My Trips</h2>
-        <button class="trip-button" onclick="window.location.href='/addtrip'">Add Trip</button>
-        <button class="trip-button" onclick="window.location.href='/bookings'">My Bookings</button>
-        <button class="trip-button" onclick="window.location.href='/shortTrips'">My Short Trips</button>
-     <% trips.length > 0 && trips.forEach((trip)=>{ %>
-        <div class="trip-card">
-            <img class="trip-image" src="<%- trip.tripImages[0].imageUrl %>" alt="Trip Image">
-            <div class="trip-details">
-                <h3><%- trip.name %></h3>
-                <p><%- trip.description %></p>
-            </div>
-            <div class="trip-buttons">
-                <button class="trip-button">See More</button>
-                <button class="trip-button" onclick="window.location.href='/tripdelete/<%- trip.id %>'">Delete</button>
-            </div>
+    <main class="container">
+        <div class="content-grid">
+            <aside class="side-nav">
+                <div class="card-premium" style="padding: 1.5rem;">
+                    <h4 style="margin-bottom: 1.5rem; color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase;">Menu</h4>
+                    <a href="/profile" class="nav-link-custom active">👤 My Profile</a>
+                    <a href="/bookings" class="nav-link-custom">🎒 My Bookings</a>
+                    <a href="/shortTrips" class="nav-link-custom">📝 Short Trips</a>
+                    
+                    <% if(currentUserRole === 'admin'){ %>
+                        <h4 style="margin: 2rem 0 1.5rem; color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase;">Backoffice</h4>
+                        <a href="/admin/hotel" class="nav-link-custom">🏨 Add Hotel</a>
+                        <a href="/addtrip" class="nav-link-custom">🏔️ Create Trip</a>
+                    <% } %>
+                    
+                    <a href="/logout" class="nav-link-custom" style="margin-top: 2rem; color: #ef4444;">🚪 Sign Out</a>
+                </div>
+            </aside>
+
+            <section class="main-content">
+                <% if(currentUserRole === 'admin'){ %>
+                    <div class="section-header" style="margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center;">
+                        <h2 style="font-size: 1.75rem;">Community Management</h2>
+                        <span class="feature-badge">Active Directory</span>
+                    </div>
+                    <% datas.forEach((user) => { %>
+                        <div class="card-premium user-mini-card">
+                            <div style="display: flex; align-items: center; gap: 1rem;">
+                                <div style="width: 40px; height: 40px; background: #e2e8f0; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800;">
+                                    <%- user.username[0].toUpperCase() %>
+                                </div>
+                                <div>
+                                    <div style="font-weight: 700;"><%- user.username %></div>
+                                    <small style="color: var(--text-muted);"><%- user.email %></small>
+                                </div>
+                            </div>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <button class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.8rem;">History</button>
+                                <button class="btn" style="padding: 0.5rem 1rem; font-size: 0.8rem; color: #ef4444;" onclick="if(confirm('Delete user?')) window.location.href='/userdelete/<%- user.id %>'">Delete</button>
+                            </div>
+                        </div>
+                    <% }) %>
+                <% } else { %>
+                    <div class="section-header" style="margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center;">
+                        <h2 style="font-size: 1.75rem;">My Adventure Journal</h2>
+                        <a href="/addtrip" class="btn btn-primary">Add New Entry</a>
+                    </div>
+                    <% if(trips.length > 0) { %>
+                        <% trips.forEach((trip) => { %>
+                            <div class="card-premium trip-mini-card">
+                                <img src="<%- trip.tripImages[0].imageUrl %>" style="width: 120px; height: 120px; border-radius: var(--radius-md); object-fit: cover;">
+                                <div style="flex: 1;">
+                                    <h3 style="margin: 0; font-size: 1.25rem;"><%- trip.name %></h3>
+                                    <p style="color: var(--text-muted); font-size: 0.9rem; margin: 0.5rem 0 1rem; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+                                        <%- trip.description %>
+                                    </p>
+                                    <div style="display: flex; gap: 1rem; align-items: center;">
+                                        <a href="/trip/<%- trip.id %>" class="btn btn-secondary" style="padding: 0.4rem 1rem; font-size: 0.8rem;">View Details</a>
+                                        <button class="btn" style="font-size: 0.8rem; color: #ef4444;" onclick="if(confirm('Remove this trip?')) window.location.href='/tripdelete/<%- trip.id %>'">Remove</button>
+                                    </div>
+                                </div>
+                            </div>
+                        <% }) %>
+                    <% } else { %>
+                        <div style="padding: 5rem; text-align: center; background: #f8fafc; border-radius: var(--radius-xl); border: 2px dashed #e2e8f0;">
+                            <div style="font-size: 3rem; margin-bottom: 1rem;">🗺️</div>
+                            <h3>Your map is empty</h3>
+                            <p style="color: var(--text-muted);">Start documenting your travels across Nepal.</p>
+                            <a href="/plan" class="btn btn-primary" style="margin-top: 1.5rem;">Start Planning</a>
+                        </div>
+                    <% } %>
+                <% } %>
+            </section>
         </div>
-     <% }) %>
-    
-      
-    </div>
-   <% } %>
-</div>
+    </main>
 
-<%- include('../components/footer') %>
+    <%- include('../components/footer') %>
 
-<script>
-    function openFileInput() {
-        document.getElementById('file-input').click();
-    }
-
-    function handleFileSelect(event) {
-        const file = event.target.files[0];
-        const reader = new FileReader();
-
-        reader.onload = function() {
-            const profileImage = document.getElementById('profile-image');
-            profileImage.src = reader.result;
-
-            // Call API to upload image
-            uploadImage(file);
+    <script>
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+            reader.onload = function() {
+                document.getElementById('profile-img').src = reader.result;
+                uploadImage(file);
+            }
+            reader.readAsDataURL(file);
         }
 
-        reader.readAsDataURL(file);
-    }
-
-    function uploadImage(file) {
-        // Replace 'YOUR_API_ENDPOINT' with your actual API endpoint
-        const endpoint = '/editProfile';
-        const formData = new FormData();
-        formData.append('image', file);
-
-        fetch(endpoint, {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => {
-            if (response.ok) {
-                console.log('Image uploaded successfully');
-            } else {
-                console.error('Failed to upload image');
-            }
-        })
-        .catch(error => {
-            console.error('Error uploading image:', error);
-        });
-    }
-</script>
-
+        async function uploadImage(file) {
+            const formData = new FormData();
+            formData.append('image', file);
+            try {
+                const res = await fetch('/editProfile', { method: 'POST', body: formData });
+                if (res.ok) console.log('Profile updated');
+            } catch (err) { console.error('Upload failed', err); }
+        }
+    </script>
 </body>
 </html>

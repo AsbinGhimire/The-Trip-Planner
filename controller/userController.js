@@ -136,9 +136,17 @@ exports.logout = (req,res)=>{
 exports.renderHotels = async (req,res)=>{
     const datas = await hotels.findAll(
       {
-        include : {
-            model : hotelImages
-        }
+        include : [
+            {
+                model : hotelImages
+            },
+            {
+                model : hotelBooks
+            },
+            {
+                model : hotelReviews
+            }
+        ]
       }
     )
     res.render("hotels",{datas})
@@ -156,6 +164,10 @@ exports.getSingleHotel = async (req,res)=>{
             model : hotelImages
         }
     })
+
+    if(data.length === 0){
+        return res.status(404).send("Hotel Not Found")
+    }
 
     const data2 = await hotelReviews.findAll({
         where : {
@@ -242,7 +254,10 @@ exports.getMyBooks = async(req,res)=>{
             userId
         },
         include : {
-            model : hotels
+            model : hotels,
+            include : {
+                model : hotelImages
+            }
         }
     })
     console.log(data)

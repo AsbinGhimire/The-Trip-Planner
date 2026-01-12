@@ -1,40 +1,81 @@
 .navbar {
-    background-color: #2ecc71;
-    color: #fff;
-    padding: 15px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    padding: 0.75rem 0;
+    transition: var(--transition-base);
+}
+
+.navbar-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--space-md);
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-.navbar h1 {
-    margin: 0;
-}
-.navbar ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
+
+.navbar-brand {
     display: flex;
     align-items: center;
-}
-.navbar li {
-    margin-right: 20px;
-}
-.navbar li:last-child {
-    margin-right: 0;
-}
-.navbar a {
-    color: #fff;
-    text-decoration: none;
+    gap: 0.75rem;
+    cursor: pointer;
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
 }
 
+.logo-icon {
+    font-size: 1.75rem;
+}
 
-footer {
-    background-color: #2ecc71;
-    color: #fff;
-    padding: 10px 0;
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    list-style: none;
+}
+
+.nav-link {
+    font-weight: 500;
+    color: var(--text-secondary);
+    padding: 0.5rem 0.75rem;
+    border-radius: var(--radius-sm);
+}
+
+.nav-link:hover {
+    color: var(--primary);
+    background: rgba(99, 102, 241, 0.05);
+}
+
+.btn-login {
+    background: var(--primary);
+    color: var(--white) !important;
+    padding: 0.6rem 1.25rem !important;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+}
+
+.btn-login:hover {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn-logout {
+    color: #ef4444 !important;
+}
+
+.btn-logout:hover {
+    background: rgba(239, 68, 68, 0.05);
+}
+
+/* Footer (Moving to a more robust global footer later, but fixing basic styles) */
+.footer-simple {
+    background: var(--text-primary);
+    color: var(--white);
+    padding: 2rem 0;
     text-align: center;
-    position: fixed;
-    bottom: 0;
-    
-    width: 100%;
+    margin-top: auto;
 }

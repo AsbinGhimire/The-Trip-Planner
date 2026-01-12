@@ -1,154 +1,136 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Home</title>
-    <link rel="stylesheet" href="navbar.css">
-<style>
-* {
-  box-sizing: border-box;
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Planning History | Shuba Yatra</title>
+    <link rel="stylesheet" href="/main.css">
+    <link rel="stylesheet" href="/navbar.css">
+    <style>
+        .history-hero {
+            padding: 4rem 0;
+            background: linear-gradient(135deg, var(--teal), #0f766e);
+            color: var(--white);
+            border-bottom-left-radius: 2rem;
+            border-bottom-right-radius: 2rem;
+            margin-bottom: 3rem;
+        }
 
+        .table-wrapper {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+            margin-bottom: 3rem;
+        }
 
-.header {
-  text-align: center;
-  font-size: 16px;
-  
-  color: white;
-  background-color: #07aa35;
-  padding: 5px;
-}
+        .premium-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
 
-.searchbar {
-  display: flex;
-  justify-content: center;
-  margin: 20px;
-}
+        .premium-table th {
+            background: #f8fafc;
+            padding: 1.25rem 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.05em;
+            color: var(--text-secondary);
+            border-bottom: 1px solid #e2e8f0;
+        }
 
-.searchbar input {
-  width: 40%;
-  height: 40px;
-  border: 1px solid #cccccc;
-  padding: 10px;
-}
+        .premium-table td {
+            padding: 1.25rem 1rem;
+            border-bottom: 1px solid #e2e8f0;
+            color: var(--text-primary);
+        }
 
-.searchbar button {
-  width: 10%;
-  height: 40px;
-  border: none;
-  background-color: #333333;
-  color: white;
-}
+        .premium-table tr:hover {
+            background: #f1f5f9;
+        }
 
-.line {
-  width: 100%;
-  height: 2px;
-  background-color: black;
-}
+        .route-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
 
-.title {
-  text-align: center;
-  font-size: 24px;
-  font-weight: bold;
-  margin: 20px;
-}
+        .btn-icon {
+            padding: 0.5rem;
+            border-radius: var(--radius-sm);
+            border: 1px solid #e2e8f0;
+            background: var(--white);
+            cursor: pointer;
+            transition: var(--transition-base);
+        }
 
-.card-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  margin: 20px;
-}
-
-.card {
-  width: 20%;
-  height: 300px;
-  /* border: 2px solid black; */ /* removed the border */
-  display: flex;
-  flex-direction: column;
-  margin: 30px;
-  align-items: center;
-  box-shadow: 5px 5px 10px #888888; /* added the box shadow */
-}
-
-.card img {
-  width: 90%;
-  height: 80%;
-  object-fit: cover;
-}
-
-.card h3 {
-  width: 90%;
-  height: 20%;
-  text-align: center;
-  margin: 0;
-}
-
-/* New styles for table */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-}
-
-th, td {
-  border: 1px solid #dddddd;
-  text-align: left;
-  padding: 8px;
-}
-
-th {
-  background-color: #f2f2f2;
-}
-
-.action-buttons button {
-  margin-right: 5px;
-  padding: 5px 10px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.action-buttons button:hover {
-  background-color: #0056b3;
-}
-
-</style>
+        .btn-icon:hover {
+            background: #f1f5f9;
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+    </style>
 </head>
 <body>
     <%- include('./components/navbar') %>
 
-    <div class="title">My Trips History</div>
+    <header class="history-hero">
+        <div class="container">
+            <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem;">Planning Journal</h1>
+            <p style="opacity: 0.9;">A record of your past route searches and intended adventures</p>
+        </div>
+    </header>
 
-    <table>
-      <thead>
-        <tr>
-          <th>ST ID</th>
-          <th>From</th>
-          <th>To</th>
-          <th>Start Date</th>
-          <th>End Date</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
- 
-    <% datas.forEach((data)=>{ %>
-        <tr>
-            <td><%- data.id %></td>
-            <td><%- data.from %></td>
-            <td><%- data.to %></td>
-            <td><%- data.startDate %></td>
-            <td><%- data.endDate %></td>
-            <td class="action-buttons">
-              <button>Edit</button>
-              <button onclick="window.location.href='/deletest/<%- data.id %>'">Delete</button>
-            </td>
-          </tr>
-    <% }) %>
-    
-      </tbody>
-    </table>
+    <main class="container">
+        <div class="table-wrapper">
+            <table class="premium-table">
+                <thead>
+                    <tr>
+                        <th>Route ID</th>
+                        <th>Journey Path</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th style="text-align: right;">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if(datas && datas.length > 0) { %>
+                        <% datas.forEach((data) => { %>
+                            <tr>
+                                <td><small style="color: var(--text-muted);">#ST-<%- data.id %></small></td>
+                                <td>
+                                    <div class="route-badge">
+                                        <span><%- data.from %></span>
+                                        <span style="opacity: 0.4;">→</span>
+                                        <span><%- data.to %></span>
+                                    </div>
+                                </td>
+                                <td><%- data.startDate || 'flexible' %></td>
+                                <td><%- data.endDate || 'flexible' %></td>
+                                <td style="text-align: right;">
+                                    <button class="btn-icon" title="View Map" onclick="window.location.href='/map?from=<%- data.from %>&to=<%- data.to %>'">🗺️</button>
+                                    <button class="btn-icon" title="Remove" onclick="if(confirm('Remove this entry?')) window.location.href='/deletest/<%- data.id %>'">🗑️</button>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="5" style="padding: 4rem; text-align: center; color: var(--text-muted);">
+                                <div style="font-size: 3rem; margin-bottom: 1rem;">📍</div>
+                                <p>Your planning history is empty.</p>
+                                <a href="/plan" class="btn btn-primary" style="margin-top: 1rem;">Map a New Route</a>
+                            </td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </main>
 
+    <%- include('./components/footer') %>
 </body>
 </html>

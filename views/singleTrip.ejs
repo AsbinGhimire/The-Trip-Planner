@@ -1,149 +1,224 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Single Trip</title>
-<link rel="stylesheet" href="../navbar.css">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%- trip.name %> | Shuba Yatra</title>
+    <link rel="stylesheet" href="/main.css">
+    <link rel="stylesheet" href="/navbar.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .trip-hero {
+            height: 60vh;
+            position: relative;
+            overflow: hidden;
+            border-bottom-left-radius: 3rem;
+            border-bottom-right-radius: 3rem;
+        }
 
-    .container {
-        margin: 20px auto;
-        padding: 0 20px;
-        display: flex;
-        flex-direction: column;
-        height: 200vh;
-    }
-.card-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  /* margin: 20px; */
-  margin-bottom: 20px;
-}
+        .carousel, .carousel-inner, .carousel-item {
+            height: 100%;
+        }
 
-.card {
-  width: 30%;
-  height: 300px;
-  /* border: 2px solid black; */ /* removed the border */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  box-shadow: 5px 5px 10px #888888; /* added the box shadow */
-}
+        .carousel-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
 
-.card img {
-  width: 90%;
-  height: 80%;
-  object-fit: cover;
-}
+        .trip-meta-overlay {
+            position: absolute;
+            bottom: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 1000px;
+            padding: 2.5rem;
+            text-align: center;
+            color: var(--white);
+            z-index: 10;
+        }
 
-.card h3 {
-  width: 90%;
-  height: 20%;
-  text-align: center;
-  margin: 0;
-}
-.checked {
-  color: orange;
-}
-</style>
+        .trip-name {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            color: var(--white);
+        }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 3rem;
+            padding: var(--space-xl) 0;
+        }
+
+        .info-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .info-section h2::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: var(--radius-full);
+        }
+
+        .review-card {
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--primary);
+        }
+
+        .star-rating {
+            color: #fbbf24;
+            margin-bottom: 0.5rem;
+        }
+
+        .trip-sidebar {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
+
+        .feature-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--primary);
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .details-grid { grid-template-columns: 1fr; }
+            .trip-name { font-size: 2.5rem; }
+        }
+    </style>
 </head>
 <body>
-
     <%- include('./components/navbar') %>
 
-
-<div class="container">
-    <div id="carouselExample" class="carousel slide" style="
-    height: fit-content;">
-        <div class="carousel-inner">
-        <% trip.tripImages.length > 0 && trip.tripImages.forEach((ti)=>{ %>
-            <div class="carousel-item active">
-                <img src="http://localhost:3000/<%- ti.imageUrl %>" class="d-block w-100" alt="..."">
-              </div>
-       <% }) %>
-    
+    <header class="trip-hero">
+        <div id="tripCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <% if(trip.tripImages && trip.tripImages.length > 0) { %>
+                    <% trip.tripImages.forEach((img, index) => { %>
+                        <div class="carousel-item <%= index === 0 ? 'active' : '' %>">
+                            <img src="/<%- img.imageUrl %>" alt="Trip Image">
+                        </div>
+                    <% }) %>
+                <% } else { %>
+                    <div class="carousel-item active">
+                        <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?fit=crop&w=1200" alt="Default">
+                    </div>
+                <% } %>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#tripCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#tripCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </button>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Next</span>
-        </button>
-      </div>
-      <div class="container2">
-        <i><%- trip.description %></i>
-        <p><%- trip.location %></p>
-        <p><%- trip.famousFor %></p>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-          Rate
-        </button>
-        <div>
-          <div >
-            <% reviews.forEach((review)=>{ %>
-              <% for(var i = 1; i <= review.rating;i++){ %>
-                <span class="fa fa-star checked"></span>
+        
+        <div class="glass-dark trip-meta-overlay" style="border-radius: var(--radius-xl);">
+            <h1 class="trip-name"><%- trip.name %></h1>
+            <p style="opacity: 0.8; font-size: 1.2rem;">📍 <%- trip.location %></p>
+        </div>
+    </header>
 
-             <%  } %>
-              <i style="display: block;"><%- review.message %> by <%- review?.user?.username %></i>
-            <% }) %>
-          </div>
+    <main class="container">
+        <div class="details-grid">
+            <div class="info-section">
+                <div class="card-premium" style="padding: 2.5rem; margin-bottom: 3rem;">
+                    <span class="feature-badge">Destination Insight</span>
+                    <h2>Explore the Journey</h2>
+                    <p style="color: var(--text-secondary); white-space: pre-line; line-height: 1.8;"><%- trip.description %></p>
+                </div>
+
+                <div class="info-section">
+                    <h2>Traveler Reviews</h2>
+                    <% if(reviews && reviews.length > 0) { %>
+                        <% reviews.forEach((review) => { %>
+                            <div class="card-premium review-card">
+                                <div class="star-rating">
+                                    <% for(let i = 0; i < review.rating; i++) { %>★<% } %>
+                                    <% for(let i = review.rating; i < 5; i++) { %>☆<% } %>
+                                </div>
+                                <p style="font-style: italic; margin-bottom: 0.5rem;">"<%- review.message %>"</p>
+                                <small style="color: var(--text-muted);">— <%- review.user.username %></small>
+                            </div>
+                        <% }) %>
+                    <% } else { %>
+                        <p style="color: var(--text-muted); padding: 2.5rem; border: 2px dashed #e2e8f0; border-radius: var(--radius-md); text-align: center;">No stories shared yet. Be the first to tell yours!</p>
+                    <% } %>
+                </div>
+            </div>
+
+            <aside class="trip-sidebar">
+                <div class="card-premium" style="padding: 2rem;">
+                    <h3 style="margin-bottom: 1.5rem;">At a Glance</h3>
+                    
+                    <div style="margin-bottom: 1.5rem;">
+                        <small style="text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); font-weight: 700;">Famous For</small>
+                        <p style="margin-top: 0.5rem; font-weight: 500;"><%- trip.famousFor %></p>
+                    </div>
+
+                    <div style="height: 1px; background: #e2e8f0; margin-bottom: 1.5rem;"></div>
+
+                    <% if(currentUser) { %>
+                        <button class="btn btn-primary" style="width: 100%; margin-bottom: 1rem;" data-bs-toggle="modal" data-bs-target="#ratingModal">Rate This Trip</button>
+                    <% } else { %>
+                        <a href="/login" class="btn btn-secondary" style="width: 100%;">Login to Rate</a>
+                    <% } %>
+                    
+                    <p style="margin-top: 1.5rem; font-size: 0.85rem; color: var(--text-muted); text-align: center;">Share your adventure with the community</p>
+                </div>
+
+                <div class="card-premium" style="padding: 2rem; margin-top: 2rem; background: var(--primary); color: var(--white);">
+                    <h4>Need Help?</h4>
+                    <p style="opacity: 0.9; font-size: 0.9rem; margin: 1rem 0;">Our travel experts are here to help you plan the perfect trip.</p>
+                    <a href="mailto:support@shubayatra.com" style="color: var(--white); text-decoration: underline; font-weight: 600;">Contact Support</a>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <!-- Rating Modal -->
+    <div class="modal fade" id="ratingModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="border-radius: var(--radius-lg); border: none;">
+                <div class="modal-header" style="background: var(--primary); color: var(--white); border: none;">
+                    <h5 class="modal-title">Rate Your Experience</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <form action="/trip/<%- trip.id %>/review" method="post">
+                    <div class="modal-body p-4">
+                        <label class="form-label">Your Rating (1-5)</label>
+                        <input type="number" name="rating" class="form-control" min="1" max="5" required style="padding: 0.75rem; border-radius: var(--radius-md); margin-bottom: 1rem;">
+                        
+                        <label class="form-label">Your Story</label>
+                        <textarea name="message" class="form-control" rows="4" placeholder="How was your adventure?" required style="padding: 0.75rem; border-radius: var(--radius-md);"></textarea>
+                    </div>
+                    <div class="modal-footer border-0">
+                        <button type="submit" class="btn btn-primary w-100 py-3">Submit Review</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-<!-- Button trigger modal -->
 
-<!-- Modal -->
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="staticBackdropLabel">Rate Trip</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-     <form action="/trip/<%-trip.id%>/review" method="post">
-      <div class="modal-body" style="display: flex;flex-direction: column;justify-content: space-between;height: 150px;">
-        <input type="number" name="rating" id="" placeholder="rating" min="0" max="5">
-        <textarea name="message" id="" cols="30" rows="3" placeholder="Enter message"></textarea>
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-primary">Rate</button>
-      </div>
+    <%- include('./components/footer') %>
 
-     </form>
-    </div>
-  </div>
-</div>
-    <!-- <h4>Near By Hotels</h4>
-    <div class="card-container">
-        <div class="card">
-          <h3>Plan Your Trip</h3>
-        </div>
-        <div class="card">
-          <h3>Find Your Destination</h3>
-        </div>
-        <div class="card">
-          <h3>Book Your Tickets</h3>
-        </div>
-        <div class="card">
-          <h3>Enjoy Your Journey</h3>
-        </div>
-      </div> -->
-</div>
-
-
-<%- include('./components/footer') %>
-
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -1,1 +1,93 @@
-<h1>Admin Dashboard</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Shuba Yatra</title>
+    <link rel="stylesheet" href="/main.css">
+    <link rel="stylesheet" href="/navbar.css">
+    <style>
+        .admin-hero {
+            padding: 4rem 0;
+            background: var(--text-primary);
+            color: var(--white);
+            border-bottom-left-radius: 2rem;
+            border-bottom-right-radius: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .admin-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .admin-stat-card {
+            padding: 2.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition-base);
+        }
+
+        .admin-stat-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+        }
+
+        .stat-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .stat-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-desc {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <%- include('../components/navbar') %>
+
+    <header class="admin-hero">
+        <div class="container">
+            <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem;">Platform Control Center</h1>
+            <p style="opacity: 0.8;">Centralized management for hotels, destinations, and traveler reservations.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="admin-grid">
+            <div class="card-premium admin-stat-card" onclick="window.location.href='/admin/hotel'">
+                <span class="stat-icon">🏨</span>
+                <h3 class="stat-title">Hotel Directory</h3>
+                <p class="stat-desc">Register and manage premium property listings</p>
+                <div class="btn btn-secondary" style="margin-top: 1.5rem; width: 100%;">Access List</div>
+            </div>
+
+            <div class="card-premium admin-stat-card" onclick="window.location.href='/addtrip'">
+                <span class="stat-icon">🏔️</span>
+                <h3 class="stat-title">Trip Curator</h3>
+                <p class="stat-desc">Design and publish breathtaking new destinations</p>
+                <div class="btn btn-secondary" style="margin-top: 1.5rem; width: 100%;">Manage Trips</div>
+            </div>
+
+            <div class="card-premium admin-stat-card" onclick="window.location.href='/bookings'">
+                <span class="stat-icon">🎟️</span>
+                <h3 class="stat-title">Reservation Hub</h3>
+                <p class="stat-desc">Track and facilitate traveler bookings and payments</p>
+                <div class="btn btn-secondary" style="margin-top: 1.5rem; width: 100%;">View Bookings</div>
+            </div>
+        </div>
+    </main>
+
+    <%- include('../components/footer') %>
+</body>
+</html>

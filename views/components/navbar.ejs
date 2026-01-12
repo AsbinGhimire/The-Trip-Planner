@@ -1,15 +1,25 @@
-
-<div class="navbar">
-    <h1 onclick="window.location.href = '/'">Shuba Yatra</h1>
-    <ul>
-        <li><a href="/hotels" >Browse Hotels</a></li>
-       <% if(!currentUser){ %>
-        <li><a href="/register">Register</a></li>
-        <li><a href="/login">Login</a></li>
-       <% }else{ %>
-
-           <li><a href="/profile">Profile</a></li>
-           <li><a href="/logout" >Logout</a></li>
-           <% } %>
-    </ul>
-</div>
+<nav class="navbar glass">
+    <div class="navbar-container">
+        <div class="navbar-brand" onclick="window.location.href = '/'">
+            <span class="logo-icon">🗺️</span>
+            <span class="logo-text">Shuba Yatra</span>
+        </div>
+        
+        <ul class="nav-links">
+            <li><a href="/hotels" class="nav-link">Browse Hotels</a></li>
+            <% if(!currentUser){ %>
+                <li><a href="/register" class="nav-link">Register</a></li>
+                <li><a href="/login" class="nav-link btn-login">Login</a></li>
+            <% } else { %>
+                <li><a href="/profile" class="nav-link">Profile</a></li>
+                <li><a href="/logout" class="nav-link btn-logout">Logout</a></li>
+            <% } %>
+        </ul>
+        
+        <div class="mobile-menu-btn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+</nav>
